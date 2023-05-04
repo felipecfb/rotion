@@ -4,6 +4,7 @@ import { Sidebar } from './components/Sidebar'
 import icon from '../../../resources/icon.png'
 
 import './styles/global.css'
+import { Routes } from './routes'
 
 export function App() {
   return (
@@ -16,10 +17,7 @@ export function App() {
 
         <div className="flex-1 flex flex-col max-h-screen">
           <Header />
-
-          <main className="flex-1 flex items-center justify-center text-rotion-400">
-            Selecione ou crie um documento
-          </main>
+          <Routes />
         </div>
       </div>
     </>
