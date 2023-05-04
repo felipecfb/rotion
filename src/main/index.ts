@@ -1,5 +1,6 @@
 import { app, shell, BrowserWindow } from 'electron'
-import { join } from 'path'
+import path from 'node:path'
+import { createFileRoute, createURLRoute } from 'electron-router-dom'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
@@ -10,14 +11,15 @@ function createWindow(): void {
     show: false,
     autoHideMenuBar: true,
     backgroundColor: '#17141f',
-    titleBarStyle: 'hiddenInset',
-    trafficLightPosition: {
-      x: 20,
-      y: 20,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#17141f',
+      symbolColor: '#ebeaed',
+      height: 35,
     },
     ...(process.platform === 'win32' ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
+      preload: path.join(__dirname, '../preload/index.js'),
       sandbox: false,
     },
   })
@@ -31,10 +33,20 @@ function createWindow(): void {
     return { action: 'deny' }
   })
 
+  const devServerURL = createURLRoute(
+    process.env.ELECTRON_RENDERER_URL!,
+    'main',
+  )
+
+  const fileRoute = createFileRoute(
+    path.join(__dirname, '../renderer/index.html'),
+    'main',
+  )
+
   if (is.dev && process.env.ELECTRON_RENDERER_URL) {
-    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL)
+    mainWindow.loadURL(devServerURL)
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(...fileRoute)
   }
 }
 
