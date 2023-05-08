@@ -14,8 +14,6 @@ export function CreatePage() {
       },
       {
         onSuccess: (data) => {
-          console.log('FEITO DO ZERO')
-
           queryClient.setQueriesData<Document[]>(['documents'], (documents) => {
             if (documents && documents?.length >= 0) {
               return [...documents, data]
