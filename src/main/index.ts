@@ -8,7 +8,7 @@ import icon from '../../resources/icon.png?asset'
 
 import './ipc'
 import './store'
-import './tray'
+import { createTray } from './tray'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -29,6 +29,8 @@ function createWindow(): void {
       sandbox: false,
     },
   })
+
+  createTray(mainWindow)
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
