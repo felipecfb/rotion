@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: rotion
+appId: com.smithson.rotion
+productName: Rotion
 directories:
   buildResources: build
 files:
@@ -11,7 +11,8 @@ files:
   - '!{tsconfig.json}'
 asarUnpack:
   - resources/**
-afterSign: build/notarize.js
+# Signature for Mac
+# afterSign: build/notarize.js
 win:
   executableName: rotion
 nsis:
@@ -31,13 +32,17 @@ dmg:
 linux:
   target:
     - AppImage
-    - snap
     - deb
+    - rpm
+    - pacman
+    - freebsd
   maintainer: electronjs.org
+  synopsis: ${description}
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
-publish:
-  provider: generic
-  url: https://example.com/auto-updates
+# Auto Updater Version
+# publish:
+#   provider: generic
+#   url: https://example.com/auto-updates
